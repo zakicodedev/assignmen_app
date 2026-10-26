@@ -9,9 +9,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PizzaMenuScreen(),
+      title: 'Pizza Menu',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        scaffoldBackgroundColor: const Color(0xFFFBF8F8),
+      ),
+      home: const PizzaMenuScreen(),
     );
   }
 }
@@ -19,137 +24,174 @@ class MyApp extends StatelessWidget {
 class PizzaMenuScreen extends StatelessWidget {
   const PizzaMenuScreen({super.key});
 
-  static const List<Map<String, String>> pizzas = [
+  // Pizza menu data list
+  final List<Map<String, String>> pizzas = const [
     {
-      'name': 'vegetable pizza',
-      'price': '\$15.5',
-      'image': 'assets/vegetable_pizza.jpg',
+      "name": "Cheese Pizza",
+      "price": "\$5.00",
+      "image": "assets/cheese_pizza.jpg",
     },
     {
-      'name': 'cheese pizza',
-      'price': '\$3.5',
-      'image': 'assets/cheese_pizza.jpg',
+      "name": "Veggie Pizza",
+      "price": "\$6.00",
+      "image": "assets/vegetable_pizza.jpg",
+    },
+    {"name": "Pepperoni", "price": "\$8.00", "image": "assets/fries_pizza.jpg"},
+    {
+      "name": "Chicken Pizza",
+      "price": "\$7.00",
+      "image": "assets/cheese_pizza.jpg",
+    },
+    {"name": "BBQ Pizza", "price": "\$9.00", "image": "assets/fries_pizza.jpg"},
+    {
+      "name": "Mushroom",
+      "price": "\$6.00",
+      "image": "assets/vegetable_pizza.jpg",
     },
     {
-      'name': 'fries pizza',
-      'price': '\$2.5',
-      'image': 'assets/fries_pizza.jpg',
+      "name": "Seafood Pizza",
+      "price": "\$10.00",
+      "image": "assets/cheese_pizza.jpg",
+    },
+    {
+      "name": "Hawaiian Pizza",
+      "price": "\$8.00",
+      "image": "assets/vegetable_pizza.jpg",
+    },
+    {
+      "name": "Margherita",
+      "price": "\$7.00",
+      "image": "assets/fries_pizza.jpg",
+    },
+    {
+      "name": "Meat Pizza",
+      "price": "\$9.00",
+      "image": "assets/cheese_pizza.jpg",
+    },
+    {
+      "name": "Olive Pizza",
+      "price": "\$6.50",
+      "image": "assets/vegetable_pizza.jpg",
+    },
+    {
+      "name": "Spicy Pizza",
+      "price": "\$7.50",
+      "image": "assets/fries_pizza.jpg",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFEF5350),
+        elevation: 0,
+        centerTitle: true,
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(28, 14, 12, 14),
-              child: Text(
-                'Creating a pizza Menu',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black,
-                ),
+            Icon(Icons.local_pizza, color: Colors.white),
+            SizedBox(width: 8),
+            Text(
+              'Pizza Menu',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
             ),
-
-            // Orange menu header
-            Container(
-              width: double.infinity,
-              height: 67,
-              margin: const EdgeInsets.symmetric(horizontal: 33),
-              alignment: Alignment.center,
-              color: const Color(0xFFFF9800),
-              child: const Text(
-                'pizza place menu',
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title Header
+              const Text(
+                'Choose Your Favorite Pizza!',
                 style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFE57373),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 4),
- 
-            // Pizza menu items
-            Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 33),
-                itemCount: pizzas.length,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    height: 8,
-                    thickness: 1,
-                    color: Color(0xFFEEEEEE),
-                  );
-                },
-                itemBuilder: (context, index) {
-                  final pizza = pizzas[index];
-
-                  return SizedBox(
-                    height: 112,
-                    child: Row(
-                      children: [
-                        // Pizza image
-                        Container(
-                          width: 98,
-                          height: 112,
-                          color: const Color(0xFFF5F5F5),
-                          padding: const EdgeInsets.all(3),
-                          child: ClipOval(
+              const SizedBox(height: 16),
+              // Grid View for Pizzas
+              Expanded(
+                child: GridView.builder(
+                  itemCount: pizzas.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // 3 columns as shown in screenshot
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.68,
+                  ),
+                  itemBuilder: (context, index) {
+                    final pizza = pizzas[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Pizza Image / Icon
+                          Expanded(
                             child: Image.asset(
                               pizza['image']!,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(
                                   Icons.local_pizza,
-                                  size: 65,
-                                  color: Colors.deepOrange,
+                                  size: 40,
+                                  color: Colors.orangeAccent,
                                 );
                               },
                             ),
                           ),
-                        ),
-
-                        const SizedBox(width: 9),
-
-                        // Pizza name and price
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                pizza['name']!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              Text(
-                                pizza['price']!,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 8),
+                          // Pizza Name
+                          Text(
+                            pizza['name']!,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: Colors.black87,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(height: 4),
+                          // Pizza Price
+                          Text(
+                            pizza['price']!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Color(0xFFEF5350),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
